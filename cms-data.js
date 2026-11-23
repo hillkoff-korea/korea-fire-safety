@@ -1,0 +1,1 @@
+window.FIRE_CMS = {};
