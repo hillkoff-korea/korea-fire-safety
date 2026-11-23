@@ -1,0 +1,17 @@
+한국소방자재총판 GitHub OAuth 관리자 패치
+
+1. GitHub 저장소의 기존 admin.html 파일을 먼저 다운로드해 백업합니다.
+2. 이 패치의 admin.html 파일로 기존 admin.html을 교체합니다.
+3. netlify/functions/github-auth.js 와 netlify/functions/github-api.js 를 같은 경로로 추가합니다.
+4. GitHub Settings > Developer settings > OAuth Apps > New OAuth App:
+   Homepage URL: https://kfiresafety.co.kr
+   Authorization callback URL: https://kfiresafety.co.kr/.netlify/functions/github-auth?mode=callback
+5. Netlify Project configuration > Environment variables 에 아래를 추가:
+   GITHUB_CLIENT_ID = GitHub OAuth App Client ID
+   GITHUB_CLIENT_SECRET = GitHub OAuth App Client Secret
+   SESSION_SECRET = 임의의 길고 강력한 랜덤 문자열(최소 32자)
+   값은 채팅이나 GitHub 파일에 절대 공개하지 마세요.
+6. Netlify 새 배포가 완료되면 https://kfiresafety.co.kr/admin.html 에 접속하여 GitHub 로그인을 누릅니다.
+7. GitHub OAuth 앱의 repo 권한은 계정이 접근 가능한 비공개 저장소까지 포함할 수 있으므로 주의하세요. 별도의 전용 GitHub 계정 사용을 권장합니다.
+8. 이 패치는 Netlify Functions 사용 가능 환경을 전제로 합니다. 실제 OAuth/저장 동작은 배포 후 테스트가 필요합니다.
+주의: index.html과 cms-data.js는 변경하지 않습니다.
