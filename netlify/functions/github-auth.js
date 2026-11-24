@@ -1,7 +1,7 @@
 const crypto = require('node:crypto');
 const owner='hillkoff-korea',repo='korea-fire-safety';
 const cookie=(name,val,maxAge)=>`${name}=${encodeURIComponent(val)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`;
-const redirect=(url,cookies=[])=>({statusCode:302,headers:{Location:url,'Set-Cookie':cookies}});
+const redirect=(url,cookies=[])=>({statusCode:302,headers:{Location:url},multiValueHeaders:{'Set-Cookie':cookies}});
 const key=()=>crypto.createHash('sha256').update(process.env.SESSION_SECRET||'').digest();
 const seal=s=>{let iv=crypto.randomBytes(12),c=crypto.createCipheriv('aes-256-gcm',key(),iv),v=Buffer.concat([c.update(s,'utf8'),c.final()]);return Buffer.concat([iv,c.getAuthTag(),v]).toString('base64url')};
 const parse=(h)=>Object.fromEntries((h||'').split(';').map(x=>x.trim().split('=').map(decodeURIComponent)).filter(x=>x.length===2));
